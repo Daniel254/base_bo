@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright (C) 2015 DevIntelle Consulting Service Pvt.Ltd (<http://www.devintellecs.com>).
+
+For Module Support : devintelle@gmail.com  or Skype : devintelle 
+ -->
+<odoo>
+    <record id="view_dev_general_ledger_report_form" model="ir.ui.view">
+        <field name="name">view.dev.general.ledger.report.form</field>
+        <field name="model">dev.general.ledger.report</field>
+        <field name="arch" type="xml">
+         <form string="General Ledger Report">
+            <group>
+                <group>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                </group>
+                <group>
+                    <field name="target_moves" widget="radio"/>
+                </group>    
+            </group>
+            <group>
+                <group>
+                    <field name="filter_account"/>
+                    <field name="filter_journal"/>
+                    <field name="filter_partner"/>
+                </group>
+                <group>
+                    
+                    <field name="company_id" required="1"/>
+                    <field name="group_by" required="1"/>
+                </group>
+            </group>
+            
+            <group string='Accounts' attrs="{'invisible':[('filter_account','!=',True)]}">
+                <field name="account_ids" widget="many2many_tags" no_label="1" attrs="{'required':[('filter_account','=',True)]}"/>
+            </group>
+            
+            <group string='Account Journals' attrs="{'invisible':[('filter_journal','!=',True)]}">
+                <field name="journal_ids" widget="many2many_tags" no_label="1" attrs="{'required':[('filter_journal','=',True)]}"/>
+            </group>
+            
+            <group string='Partners' attrs="{'invisible':[('filter_partner','!=',True)]}">
+                <field name="partner_ids" widget="many2many_tags" no_label="1" attrs="{'required':[('filter_partner','=',True)]}"/>
+            </group>
+
+            <footer>
+        		<button string="Print PDF" name="print_general_entry_report" type="object" class="oe_highlight"/> or
+                <button string="Cancel" class="oe_link" special="cancel" />
+            </footer>
+         </form>
+       </field>
+    </record>
+    
+	<!--WIZARD ACTION-->
+    <record id="action_general_ledger_report" model="ir.actions.act_window">
+        <field name="name">General Ledger Report</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">dev.general.ledger.report</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="view_dev_general_ledger_report_form"/>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+	<!--MENU WHICH OPENS WIZARD-->
+	<menuitem id="menu_dev_account_reports" name="Account Reports" parent="account.menu_finance_reports" sequence="100" groups="account.group_account_manager"/>
+    <menuitem id="menu_dev_general_ledger_reports" name="General Ledger Report" parent="menu_dev_account_reports" action="action_general_ledger_report" sequence="1"/>
+
+</odoo>

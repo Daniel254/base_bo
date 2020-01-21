@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <record id="res_partner_ciudad_action" model="ir.actions.act_window">
+        <field name="name">Ciudades</field>
+        <field name="res_model">res.partner.ciudad</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <record id="res_partner_ciudad_tree_view" model="ir.ui.view">
+        <field name="name">CRM Ciudad tree</field>
+        <field name="model">res.partner.ciudad</field>
+        <field name="arch" type="xml">
+            <tree string="Ciudad" editable="top">
+                <field name="name"/>
+                <field name="codigo"/>
+                <field name="parent_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="res_partner_ciudad_form_view" model="ir.ui.view">
+        <field name="name">CRM Ciudad form</field>
+        <field name="model">res.partner.ciudad</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="name"/>
+		    <field name="codigo"/>
+                    <field name="parent_id"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <menuitem action="res_partner_ciudad_action"
+              id="menu_res_partner_ciudad"
+              parent="sales_team.menu_config_address_book"/>
+
+</odoo>

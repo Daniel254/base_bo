@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+		<template id="inventory_value_report_id">
+		<t t-call="report.html_container">
+	        <t t-foreach="docs" t-as="doc">
+			<!-- <t t-call="web.external_layout"> -->
+				<div class="page">
+					<div class="oe_structure" />
+					<h3 class="mb32" align="center">Inventory Valuation Report</h3>
+					<div class="oe_structure" />
+						<table class="table table-bordered">
+						<t t-set="s_qty" t-value="0" />
+						<t t-set="receve" t-value="0" />
+						<t t-set="sale" t-value="0" />
+						<t t-set="intern" t-value="0" />
+						<t t-set="adj" t-value="0" />
+						<t t-set="e_qty" t-value="0" />
+						<t t-set="cost" t-value="0" />
+						<t t-set="t_value" t-value="0" />
+								<tr>
+									<th class="text-center">Company</th>
+									<th class="text-center">Warehouse</th>
+									<th class="text-center">Valuation Date</th>
+									<th class="text-center">Amount In Currency</th>
+								</tr>
+								<tbody>
+								
+								<t t-if="doc.company_id">
+									<tr>
+	                                   	<td>
+	                                        <span t-field="doc.company_id.name"/>
+	                                    </td>
+							                                        
+	                                   	<td>
+	                                        <span t-field="doc.warehouse_ids.name"/>
+	                                   	</td>
+	                                   	<td>
+	                                        <span t-field="doc.from_date"/>
+	                                        To
+	                                        <span t-field="doc.to_date"/>
+	                                    </td>
+	                                   	<td>
+	                                        <span t-field="doc.company_id.currency_id.name"/>
+	                                    </td>
+	                                </tr>
+	                                
+		                             <t t-if = "doc.display_sumry == false">
+		                                    <table class="table table-condensed">
+				                                <tr>
+				                                   	<td>
+				                                   	<span t-field="doc.company_id.name"/>
+				                                   	</td>
+				                                    <th class="text-after">Beginning</th>
+				                                    <th class="text-after">Received</th>
+				                                    <th class="text-after">Sale</th>
+				                                    <th class="text-after">Internal</th>
+				                                    <th class="text-after">Adjustments</th>
+				                                    <th class="text-after">Ending</th>
+				                                    <th class="text-after">Cost</th>
+				                                    <th class="text-after">Total Value</th>
+				                                </tr>
+				                                
+				                                <tr t-foreach="doc.getcategory()" t-as="a">
+		                                           <!--  <td t-if = "doc.display_sumry == True">
+		                                                <span t-esc="a.categ_id.name" />
+		                                            </td>
+		                                            <td t-else = "">
+		                                                <span t-esc="a.name" />
+		                                            </td> -->
+		                                               	<td>
+			                                            	<span t-esc="a.get('name')" />
+			                                            </td>
+			                                            <td>
+			                                            	<span t-esc="a.get('start_qty')" />
+			                                            </td>
+			                                            <td>
+			                                            	<span t-esc="a.get('receive')" />
+			                                            </td>
+			                                            <td>
+			                                            	<span t-esc="a.get('sales')"/>
+			                                            </td>
+			                                            <td>
+			                                            	<span t-esc="a.get('internal')"/>
+			                                        	</td>
+			                                            <td>
+			                                            	<span  t-esc="a.get('adjust')"/>
+			                                            </td>
+			                                            <td>
+			                                            	<span t-esc="a.get('end_qty')" />
+			                                            </td>
+			                                            <td>
+			                                            	<span t-esc="a.get('cost')" />
+			                                            </td>
+			                                            <td>
+			                                            	<span t-esc="a.get('total_value')" />
+			                                            </td>
+			                                            <t t-set="s_qty" t-value="s_qty + a.get('start_qty')"/>
+			                                            <t t-set="receve" t-value="receve + a.get('receive')"/>
+			                                            <t t-set="sale" t-value="sale + a.get('sales')"/>
+			                                            <t t-set="intern" t-value="intern + a.get('internal')"/>
+			                                            <t t-set="adj" t-value="adj + a.get('adjust')"/>
+			                                            <t t-set="e_qty" t-value="e_qty + a.get('end_qty')"/>
+			                                            <t t-set="cost" t-value="cost + a.get('cost')"/>
+			                                            <t t-set="t_value" t-value="t_value + a.get('total_value')"/>
+						                        </tr>
+						                        <tr>
+						                        	<th class="text-after">Total Inventory</th>
+									                <td> <span t-esc="s_qty"></span> </td>
+									                <td> <span t-esc="receve"></span> </td>
+									                <td> <span t-esc="sale"></span> </td>
+									                <td> <span t-esc="intern"></span> </td>
+									                <td> <span t-esc="adj"></span> </td>
+									                <td> <span t-esc="e_qty"></span> </td>
+									                <td> <span t-esc="cost"></span> </td>
+									                <td> <span t-esc="t_value"></span> </td>
+									            </tr>
+											</table>
+		                                    
+		                              </t>
+	                                  <t t-if = "doc.display_sumry == true">
+	                                    <table class="table table-condensed">
+	                                    	<t t-set="s_qty" t-value="0" />
+											<t t-set="receve" t-value="0" />
+											<t t-set="sale" t-value="0" />
+											<t t-set="intern" t-value="0" />
+											<t t-set="adj" t-value="0" />
+											<t t-set="e_qty" t-value="0" />
+											<t t-set="cost" t-value="0" />
+											<t t-set="t_value" t-value="0" />
+			                                <tr>
+			                                   	<td>
+			                                   	<span t-field="doc.company_id.name"/>
+			                                   	</td>
+			                                    <th class="text-after">Beginning</th>
+			                                    <th class="text-after">Received</th>
+			                                    <th class="text-after">Sale</th>
+			                                    <th class="text-after">Internal</th>
+			                                    <th class="text-after">Adjustments</th>
+			                                    <th class="text-after">Ending</th>
+			                                    <th class="text-after">Cost</th>
+			                                    <th class="text-after">Total Value</th>
+			                                </tr>
+			                                
+			                                <tr t-foreach="doc.getStockWithCategory()" t-as="a">
+	                                           
+	                                               	<td>
+		                                            	<span t-esc="a.get('name')" />
+		                                            </td>
+		                                            <td>
+		                                            	<span t-esc="a.get('start_qty')" />
+		                                            </td>
+		                                            <td>
+		                                            	<span t-esc="a.get('receive')" />
+		                                            </td>
+		                                            <td>
+		                                            	<span t-esc="a.get('sales')"/>
+		                                            </td>
+		                                            <td>
+			                                            <span t-esc="a.get('internal')"/>
+			                                        </td>
+		                                           	<td>
+			                                            <span  t-esc="a.get('adjust')"/>
+			                                        </td>
+		                                            <td>
+		                                            	<span t-esc="a.get('end_qty')" />
+		                                            </td>
+		                                            <td>
+		                                            	<span t-esc="a.get('cost')" />
+		                                            </td>
+		                                            <td>
+			                                            <span t-esc="a.get('total_value')" />
+			                                        </td>
+		                                        	<t t-set="s_qty" t-value="s_qty + a.get('start_qty')"/>
+		                                            <t t-set="receve" t-value="receve + a.get('receive')"/>
+		                                            <t t-set="sale" t-value="sale + a.get('sales')"/>
+		                                            <t t-set="intern" t-value="intern + a.get('internal')"/>
+		                                            <t t-set="adj" t-value="adj + a.get('adjust')"/>
+		                                            <t t-set="e_qty" t-value="e_qty + a.get('end_qty')"/>
+		                                            <t t-set="cost" t-value="cost + a.get('cost')"/>
+		                                            <t t-set="t_value" t-value="t_value + a.get('total_value')"/>
+					                        </tr>
+					                        	 <tr>
+						                        	<th class="text-after">Total Inventory</th>
+									                <td> <span t-esc="s_qty"></span> </td>
+									                <td> <span t-esc="receve"></span> </td>
+									                <td> <span t-esc="sale"></span> </td>
+									                <td> <span t-esc="intern"></span> </td>
+									                <td> <span t-esc="adj"></span> </td>
+									                <td> <span t-esc="e_qty"></span> </td>
+									                <td> <span t-esc="cost"></span> </td>
+									                <td> <span t-esc="t_value"></span> </td>
+									            </tr>
+					                        
+										</table>
+	                                  </t>
+								</t>
+								
+								<t t-if ="not doc.company_id">
+									<t t-set="total_value" t-value ="doc.getmulticompany()"></t>
+									<t t-set="company_res" t-value ="total_value[0]"></t>
+									<t t-set="warehouse_res" t-value ="total_value[1]"></t>
+									<t t-set="index" t-value ="0"></t>
+									<tr t-foreach="company_res" t-as ="com">
+										<td>
+	                                        <span t-field="com.name"/>
+	                                    </td>
+							                                        
+	                                   	<td>
+	                                        <span t-esc="warehouse_res[index]"/>
+	                                   	</td>
+	                                   	<td>
+	                                        <span t-field="doc.from_date"/>
+	                                        To
+	                                        <span t-field="doc.to_date"/>
+	                                    </td>
+	                                   	<td>
+	                                        <span t-field="com.currency_id.name"/>
+	                                    </td>
+	                                    
+	                                    
+		                                  <t t-if = "doc.display_sumry == false">
+		                                    <table class="table table-condensed">
+		                                    	<t t-set="s_qty" t-value="0" />
+												<t t-set="receve" t-value="0" />
+												<t t-set="sale" t-value="0" />
+												<t t-set="intern" t-value="0" />
+												<t t-set="adj" t-value="0" />
+												<t t-set="e_qty" t-value="0" />
+												<t t-set="cost" t-value="0" />
+												<t t-set="t_value" t-value="0" />
+				                                <tr>
+				                                   	<td>
+				                                   	<span t-field="com.name"/>
+				                                   	</td>
+				                                    <th class="text-after">Beginning</th>
+				                                    <th class="text-after">Received</th>
+				                                    <th class="text-after">Sale</th>
+				                                    <th class="text-after">Internal</th>
+				                                    <th class="text-after">Adjustments</th>
+				                                    <th class="text-after">Ending</th>
+				                                    <th class="text-after">Cost</th>
+				                                    <th class="text-after">Total Value</th>
+				                                </tr>
+				                                
+				                                <tr t-foreach="doc.getcategory()" t-as="a">
+		                                          
+		                                               	<td>
+			                                            	<span t-esc="a.get('name')" />
+			                                            </td>
+			                                            <td>
+			                                            	<span t-esc="a.get('start_qty')" />
+			                                            </td>
+			                                            <td>
+			                                            	<span t-esc="a.get('receive')" />
+			                                            </td>
+			                                            <td>
+			                                            	<span t-esc="a.get('sales')"/>
+			                                            </td>
+			                                            <td>
+			                                            	<span t-esc="a.get('internal')"/>
+			                                            </td>
+			                                            <td>
+			                                            	<span  t-esc="a.get('adjust')"/>
+			                                            </td>
+			                                            <td>
+			                                            	<span t-esc="a.get('end_qty')" />
+			                                            </td>
+			                                            <td>
+			                                            	<span t-esc="a.get('cost')" />
+			                                            </td>
+			                                            <td>
+			                                            	<span t-esc="a.get('total_value')" />
+			                                            </td>
+			                                            <t t-set="s_qty" t-value="s_qty + a.get('start_qty')"/>
+			                                            <t t-set="receve" t-value="receve + a.get('receive')"/>
+			                                            <t t-set="sale" t-value="sale + a.get('sales')"/>
+			                                            <t t-set="intern" t-value="intern + a.get('internal')"/>
+			                                            <t t-set="adj" t-value="adj + a.get('adjust')"/>
+			                                            <t t-set="e_qty" t-value="e_qty + a.get('end_qty')"/>
+			                                            <t t-set="cost" t-value="cost + a.get('cost')"/>
+			                                            <t t-set="t_value" t-value="t_value + a.get('total_value')"/>
+						                        </tr>
+						                        	<tr>
+							                        	<th class="text-after">Total Inventory</th>
+										                <td> <span t-esc="s_qty"></span> </td>
+										                <td> <span t-esc="receve"></span> </td>
+										                <td> <span t-esc="sale"></span> </td>
+										                <td> <span t-esc="intern"></span> </td>
+										                <td> <span t-esc="adj"></span> </td>
+										                <td> <span t-esc="e_qty"></span> </td>
+										                <td> <span t-esc="cost"></span> </td>
+										                <td> <span t-esc="t_value"></span> </td>
+									            	</tr>
+											</table>
+		                                    
+		                                  </t>
+		                                  <t t-if = "doc.display_sumry == true">
+		                                    <table class="table table-condensed">
+		                                    	<t t-set="s_qty" t-value="0" />
+												<t t-set="receve" t-value="0" />
+												<t t-set="sale" t-value="0" />
+												<t t-set="intern" t-value="0" />
+												<t t-set="adj" t-value="0" />
+												<t t-set="e_qty" t-value="0" />
+												<t t-set="cost" t-value="0" />
+												<t t-set="t_value" t-value="0" />
+				                                <tr>
+				                                   	<td>
+				                                   	<span t-field="com.name"/>
+				                                   	</td>
+				                                    <th class="text-after">Beginning</th>
+				                                    <th class="text-after">Received</th>
+				                                    <th class="text-after">Sale</th>
+				                                    <th class="text-after">Internal</th>
+				                                    <th class="text-after">Adjustments</th>
+				                                    <th class="text-after">Ending</th>
+				                                    <th class="text-after">Cost</th>
+				                                    <th class="text-after">Total Value</th>
+				                                </tr>
+				                                
+				                                <tr t-foreach="doc.getStockWithCategory()" t-as="a">
+		                                           
+		                                               	<td>
+			                                            	<span t-esc="a.get('name')" />
+			                                            </td>
+			                                            <td>
+			                                            	<span t-esc="a.get('start_qty')" />
+			                                            </td>
+			                                            <td>
+			                                            	<span t-esc="a.get('receive')" />
+			                                            </td>
+			                                            <td>
+			                                            	<span t-esc="a.get('sales')"/>
+			                                            </td>
+			                                            <td>
+			                                            <span t-esc="a.get('internal')"/>
+			                                        	</td>
+			                                            <td>
+			                                            	<span  t-esc="a.get('adjust')"/>
+			                                            </td>
+			                                            <td>
+			                                            	<span t-esc="a.get('end_qty')" />
+			                                            </td>
+			                                            <td>
+			                                            	<span t-esc="a.get('cost')" />
+			                                            </td>
+			                                            <td>
+			                                            	<span t-esc="a.get('total_value')" />
+			                                            </td>
+			                                            <t t-set="s_qty" t-value="s_qty + a.get('start_qty')"/>
+			                                            <t t-set="receve" t-value="receve + a.get('receive')"/>
+			                                            <t t-set="sale" t-value="sale + a.get('sales')"/>
+			                                            <t t-set="intern" t-value="intern + a.get('internal')"/>
+			                                            <t t-set="adj" t-value="adj + a.get('adjust')"/>
+			                                            <t t-set="e_qty" t-value="e_qty + a.get('end_qty')"/>
+			                                            <t t-set="cost" t-value="cost + a.get('cost')"/>
+			                                            <t t-set="t_value" t-value="t_value + a.get('total_value')"/>
+						                        </tr>
+						                        	<tr>
+							                        	<th class="text-after">Total Inventory</th>
+										                <td> <span t-esc="s_qty"></span> </td>
+										                <td> <span t-esc="receve"></span> </td>
+										                <td> <span t-esc="sale"></span> </td>
+										                <td> <span t-esc="intern"></span> </td>
+										                <td> <span t-esc="adj"></span> </td>
+										                <td> <span t-esc="e_qty"></span> </td>
+										                <td> <span t-esc="cost"></span> </td>
+										                <td> <span t-esc="t_value"></span> </td>
+									            	</tr>
+											</table>
+		                                  </t>
+	                                    <t t-set="index" t-value ="index + 1"></t>
+	                                    <p style="page-break-after:always"></p>
+									</tr>
+								</t>
+                                </tbody>
+						 </table>
+				</div>
+			 </t>
+			 </t>
+			 <!-- </t> -->
+		</template>
+
+	<!-- <template id="inventory_valuation_tmpl">
+	    <t t-call="web.html_container">
+	        <t t-foreach="docs" t-as="doc">
+	            <t t-call="stock_valuation.inventory_value_report_id"/>
+	        </t>
+	    </t>
+	</template> -->
+	</data>
+	</odoo>
+	

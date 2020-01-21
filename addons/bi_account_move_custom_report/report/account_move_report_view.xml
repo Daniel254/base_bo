@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <data>
+     
+     	<report id="account_move_report_id"
+				string="Account Move"
+				model="account.move"
+				report_type="qweb-pdf"
+				menu="False"
+				name="bi_account_move_custom_report.account_move_template"
+				file="bi_account_move_custom_report.account_move_template"
+				/>
+				
+     </data>
+</odoo>
+

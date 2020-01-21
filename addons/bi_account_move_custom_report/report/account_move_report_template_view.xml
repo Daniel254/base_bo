@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <data>
+
+     	<template id="account_move_report_template_document">
+    		<t t-call="report.external_layout">
+        		<div class="page">
+
+              <h4 class="text-center"><b>COMPROBANTE DE <strong t-esc="data['tipo_id']"/></b></h4>
+
+<div class="row">
+<div class="col-xs-4 pull-left" style="font-size:12px">
+<strong>Nro de Comprobante: </strong><t t-esc="data['x_nro']"/><br/>
+<strong>Fecha: </strong><t t-esc="data['date']"/><br/>
+</div>
+
+<div class="col-xs-4 pull-right" style="font-size:12px">
+<strong>T.C: </strong>6,96 Bs.<br/>
+<!--strong>Creado por: </strong><t t-esc="data['create_uid']"/><br/-->
+</div>
+</div>
+
+
+<br/>
+
+<table class="table table-condensed" style="font-size:10px">
+<colgroup>
+<col width='300px' />
+<col width='300px' />
+<col width='30px' />
+<col width='30px' />
+</colgroup>
+<thead>
+<tr class="text-center">
+<th class="text-left">Cuenta</th>
+<th class="text-left">Empresa</th>
+<th class="text-right">Debe</th>
+<th class="text-right">Haber</th>
+</tr>
+</thead>
+<tbody>
+<t t-set="credit_total" t-value="0.0"/>
+<t t-set="debit_total" t-value="0.0"/>
+
+<t t-foreach="docs" t-as="main">
+<tr class="text-center">
+<td class="text-left"><span t-esc="main['account_id']"/></td>
+<td class="text-left"><span t-esc="main['partner_id']"/></td>
+<td class="text-right"><t t-set="deb" t-value="main['debit']"/><span t-esc="'%.2f'% deb"/></td>
+<td class="text-right"><t t-set="cred" t-value="main['credit']"/><span t-esc="'%.2f'% cred"/></td>
+<t t-set="credit_total" t-value="credit_total +int (main['credit']) "/>
+<t t-set="debit_total" t-value="debit_total +int (main['debit']) "/>
+</tr>
+</t>
+<tr class="text-center">
+<td class="text-center" />
+<td class="text-center" />
+<td class="text-right">
+<span t-esc="debit_total"/>
+</td>
+<td class="text-right">
+<span t-esc="credit_total"/>
+</td>
+</tr>
+</tbody>
+</table>
+                	<br/>
+					<br/>
+
+<div class="row mt32 mb32" id="informations2" align="center">
+<div class="col-xs-4">
+<strong>_________________________</strong>
+</div>
+<div class="col-xs-4">
+<strong>_________________________</strong>
+</div>
+<div class="col-xs-4">
+<strong>_________________________</strong>
+</div>
+</div>
+<div class="row mt32 mb32" id="informations2" align="center">
+<div class="col-xs-4">
+<strong>ELABORADO POR</strong>
+</div>
+<div class="col-xs-4">
+<strong>ENTREGADO POR</strong>
+</div>
+<div class="col-xs-4">
+<strong>RECIBI CONFORME</strong>
+</div>
+</div>
+            	</div>
+		    </t>
+		</template>
+
+		<template id="account_move_template">
+			<t t-call="report.html_container">
+				<t t-call="bi_account_move_custom_report.account_move_report_template_document"/>
+				<!-- <t t-foreach="data" t-as="doc">
+				    <t t-call="bi_account_check.account_check_report_template_document"/>
+				</t> -->
+			</t>
+		</template>
+
+     </data>
+</odoo>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record id="inherit_account_move_view_form" model="ir.ui.view">
+            <field name="name">inherit.account.move.view.form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <field name='date' position="after">
+                    <field name="nro_number"/>
+                    <field name="x_nro"/>
+                </field>
+
+                <field name='company_id' position="after">
+                    <field name="tipo_id"/>
+                </field>
+
+            </field>
+        </record>
+
+        <record id="tipo_report_view_form" model="ir.ui.view">
+            <field name="name">tipo.report.view.form</field>
+            <field name="model">tipo.report</field>
+            <field name="arch" type="xml">
+                <form string="Tipo de Comprobante">
+                	<sheet>
+		                <group>
+		                    <group>
+		                        <field name="name"/>
+		                    </group>
+		                    <group>
+		                    	<field name="code"/>
+		                   	</group>
+		                </group>
+		            </sheet>
+                </form>
+            </field>
+        </record>
+
+		<record id="tipo_report_view_tree" model="ir.ui.view">
+            <field name="name">tipo.report.view.tree</field>
+            <field name="model">tipo.report</field>
+            <field name="arch" type="xml">
+                <tree string="Impresión Comprobante">
+                    <field name="name"/>
+                    <field name="code"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_tipo_report" model="ir.actions.act_window">
+            <field name="name">Comprobante Contable</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">tipo.report</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <menuitem action="action_tipo_report"
+                  id="action_tipo_report_id"
+                  parent="account.menu_finance_configuration"
+                  sequence="1"
+                  />
+
+		<record id="seq_income_tipo_report" model="ir.sequence">
+			<field name="name">Income TIPO</field>
+			<field name="code">income.tipo.report</field>
+			<field name="prefix">INC-00</field>
+			<field name="padding">2</field>
+		</record>
+
+        <record id="seq_expense_tipo_report" model="ir.sequence">
+            <field name="name">Expense TIPO</field>
+            <field name="code">expense.tipo.report</field>
+            <field name="prefix">EXP-00</field>
+            <field name="padding">2</field>
+        </record>
+
+        <record id="seq_transfer_tipo_report" model="ir.sequence">
+            <field name="name">Transfer TIPO</field>
+            <field name="code">transfer.tipo.report</field>
+            <field name="prefix">TRA-00</field>
+            <field name="padding">2</field>
+        </record>
+
+    </data>
+</openerp>

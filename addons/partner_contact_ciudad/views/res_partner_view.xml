@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <record model="ir.ui.view" id="view_partner_form_ciudad">
+        <field name="name">Partner form with ciudad</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/group//field[@name='category_id']" position="after">
+                <field name="ciudad_id"
+                       placeholder="Ciudad"
+                       options='{"no_open": True}'/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_res_partner_filter_ciudad">
+        <field name="name">Partner search with ciudad</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <field name="category_id" position="after">
+                <field name="ciudad_id"/>
+            </field>
+            <filter name="salesperson" position="after">
+                <filter name="ciudad"
+                        string="Ciudad"
+                        domain="[('is_company', '=', False)]"
+                        context="{'group_by': 'ciudad_id'}"/>
+            </filter>
+        </field>
+    </record>
+
+</odoo>

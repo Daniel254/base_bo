@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <data>
+
+		<record id="account_move_report_wizard_view" model="ir.ui.view">
+            <field name="name">account.move.report.wizard.view</field>
+            <field name="model">account.move.report.wizard</field>
+            <field name="arch" type="xml">
+				<form string="Imprimir Comprobante">
+					<group>
+						<field name="x_nro"/>
+					</group>
+					<footer>
+						<button name="submit" string="Imprimir" type="object"/>
+						or
+                        <button string="Cancelar" class="oe_link" special="cancel" />
+					</footer>
+				</form>
+            </field>
+        </record>
+
+		<record id="action_account_move_report_wizard" model="ir.actions.act_window">
+            <field name="name">Imprimir Comprobante</field>
+            <field name="res_model">account.move.report.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+           <field name="view_id" ref="account_move_report_wizard_view"/>
+           <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_account_move_report" parent="account.menu_finance_reports" action="action_account_move_report_wizard" sequence="100"/>
+
+    </data>
+</odoo>

@@ -1,0 +1,8 @@
+Date : 24 Dec
+
+Improve module by add group by account_id and partner_id for account.move object
+Also add description on account move report
+
+Date : 10 Jan 2019
+
+Add account code and also add account.move create_date and create_uid(user) in report.

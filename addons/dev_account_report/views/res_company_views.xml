@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+    Copyright (C) 2015 DevIntelle Consulting Service Pvt.Ltd (<http://www.devintellecs.com>).
+
+    For Module Support : devintelle@gmail.com  or Skype : devintelle
+-->
+<odoo>
+    <record id="view_res_company_account_report_form" model="ir.ui.view">
+        <field name="name">view.res.company.account.report.form</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//page[1]" position="after">
+                <page string='Account Report' name="account_report">
+                    <group>
+                        <field name="profit_loss_account_ids" widget="many2many_tags" domain="[('parent_id','=',False)]" context="{'show_parent_account':True}"/>
+                        <field name="balance_sheet_account_ids" widget="many2many_tags" domain="[('parent_id','=',False)]" context="{'show_parent_account':True}"/>
+                    </group>
+                </page>
+            </xpath>
+		</field>
+	</record>        
+</odoo>  

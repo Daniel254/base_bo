@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<template id="dev_balance_sheet_report">  
+		<t t-call="report.external_layout">
+			<t t-foreach="docs" t-as="o">
+				<div class="page">
+				    <style>
+				        .main_table th{
+                            background:#a6a6a6;
+                            padding:5px;
+                            font-size:12px;
+                            border:1px solid #000;
+                        }
+                        .main_table .group{
+                            background:#ebeced;
+                        }
+                        .main_table td{
+                            padding:5px;
+                            font-size:12px;
+                        }
+				    </style>
+				    
+				    <div class="row">
+				        <div class="col-xs-12 text-center">
+				            <h3>Balance Sheet Report</h3>
+				                (<span t-esc="time.strftime('%d-%m-%Y',time.strptime(o.start_date,'%Y-%m-%d'))"/> - <span t-esc="time.strftime('%d-%m-%Y',time.strptime(o.end_date,'%Y-%m-%d'))"/>)
+				        </div>
+				    </div>
+				    <t t-if="o.is_comparison">
+				        <div class="row mt16 mb16">
+				            <div class="col-xs-6">
+				                <b>Comparison Duration </b>: <span t-esc="time.strftime('%d-%m-%Y',time.strptime(o.com_start_date,'%Y-%m-%d'))"/> - <span t-esc="time.strftime('%d-%m-%Y',time.strptime(o.com_end_date,'%Y-%m-%d'))"/>
+				            </div>
+				        </div>
+				    </t>
+				    
+				     <div class="row mt16 mb16">
+				        <div class="col-xs-12">
+				            <table width="100%" class="main_table">
+				                <tbody class="sale_tbody">
+				                        <t t-foreach="o.get_lines()" t-as="lines">
+                                            <tr t-foreach="lines" t-as="line"  style="page-break-inside: avoid">
+                                                <t t-if="line.get('is_bold')">
+                                                    <td width="40%">
+                                                        <span style="color:#FFF" t-esc="line.get('x_name')"/>
+                                                        <b><span t-esc="line.get('name')"/></b>
+                                                    </td>
+                                                    <td class="text-right">
+                                                       <b> <span t-esc="line.get('balance')" t-esc-options='{"widget": "monetary", "display_currency": "o.company_id.currency_id"}'/> </b>
+                                                    </td>
+                                                    <t t-if="o.is_comparison">
+                                                        <td class="text-right">
+                                                            <b> <span t-esc="line.get('com_balance')" t-esc-options='{"widget": "monetary", "display_currency": "o.company_id.currency_id"}'/> </b>
+                                                        </td>
+                                                    </t>
+                                                </t>
+                                                
+                                                <t t-if="not line.get('is_bold')">
+                                                    <td width="40%">
+                                                        <span style="color:#FFF" t-esc="line.get('x_name')"/>
+                                                        <span t-esc="line.get('name')"/>
+                                                    </td>
+                                                    <td class="text-right">
+                                                        <span t-esc="line.get('balance')" t-esc-options='{"widget": "monetary", "display_currency": "o.company_id.currency_id"}'/>
+                                                    </td>
+                                                    <t t-if="o.is_comparison">
+                                                        <td class="text-right">
+                                                            <span t-esc="line.get('com_balance')" t-esc-options='{"widget": "monetary", "display_currency": "o.company_id.currency_id"}'/>
+                                                        </td>
+                                                    </t>
+                                                </t>
+                                            </tr>
+                                            <tr style="border-top:1px solid black;border-bottom:1px solid black">
+                                                <td width="40%" >
+                                                    <b>TOTAL OF <span t-esc="lines[0].get('name')"/></b>
+                                                </td>
+                                                <td class="text-right">
+                                                   <b> <span t-esc="lines[0].get('balance')" t-esc-options='{"widget": "monetary", "display_currency": "o.company_id.currency_id"}'/> </b>
+                                                </td>
+                                                <t t-if="o.is_comparison">
+                                                    <td class="text-right">
+                                                        <b> <span t-esc="lines[0].get('com_balance')" t-esc-options='{"widget": "monetary", "display_currency": "o.company_id.currency_id"}'/> </b>
+                                                    </td>
+                                                </t>
+                                            
+                                            </tr>
+                                        </t>
+                                </tbody>
+				            
+				            </table>
+				        </div>
+				    </div>
+				    
+				</div>
+			</t>
+		</t>
+	</template>
+</odoo>
+
